@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>踏花歸去馬蹄香</title>
+    <description></description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sun, 01 Apr 2018 05:08:30 +0000</pubDate>
+    <lastBuildDate>Sun, 01 Apr 2018 05:08:30 +0000</lastBuildDate>
+    <generator>Jekyll v3.7.3</generator>
+    
+      <item>
+        <title>这是一篇博客文章模板</title>
+        <description>&lt;p&gt;这里是博客正文。&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/blog/2015/03/02/how-to-write/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/2015/03/02/how-to-write/</guid>
+        
+        <category>标签一</category>
+        
+        <category>标签二</category>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+  </channel>
+</rss>
