@@ -25,7 +25,7 @@ facebook_username:
 # Build settings  
 # use Github Flavored Markdown !important  
 # document: http://jekyllrb.com/docs/configuration/#kramdown  
-markdown: kramdown
+markdown: rdiscount
 highlighter: rouge
 permalink: pretty
 paginate: 8
