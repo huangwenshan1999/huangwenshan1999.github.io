@@ -1,14 +1,21 @@
-# Archlinux安裝指南（uefi+gpt）
+---
+layout: post
+title: Archlinux安裝指南（uefi+gpt）
+date: 2018-04-01
+author: huang
+header-img: img/green.jpg
+catalog: true
+tags: blog, linux
+keywords: archlinux,linux,install,gpt,efi
+---
 
-摘要：文章介绍了基于uefi+gpt模式下archlinux基本系统和图形界面的安装、一些基本的系统优化。
-
-[TOC]
+>摘要：文章介绍了基于uefi+gpt模式下archlinux基本系统和图形界面的安装、一些基本的系统优化。
 
 
 -------------------
 
-##1.系统安装前的一些准备
-   首先在[Archlinux官网](https://www.archlinux.org/download/)下载镜像文件,然后刻录到U盘或光盘上。在我的机器上刻录arch镜像文件到U盘后启动不了，因为时间问题我没做过多的探索，所以后面直接刻录到光盘，用光驱启动成功（我用的刻录工具是软碟通）。
+##1.系统安装前的准备
+   首先在[Archlinux官网](https://www.archlinux.org/download/)下载镜像文件,然后刻录到U盘或光盘上。在我的机器上刻录arch镜像文件到U盘后启动不了，因为时间问题我没做过多的探索，所以后面直接刻录到光盘，用光驱启动成功（我用的刻录工具是软碟通）。我后来用rufus-2.18.exe把debian镜像刻录到u盘可以启动并进入安装界面安装;因为之前我也用软碟通把debian镜像刻录到u盘，和刻录archlinux的镜像一样，不能启动。我没有用rufus刻录过archlinux镜像，但是刻录了debian，所以我猜用rufus可能会有效，如果遇到镜像启动问题的话可以用这个方法试一试。
        加载完成进入系统后，首先用parted分区工具对硬盘进行分区。以下是用pared工具分区的示例：
    分区情况：
    硬盘分区                       挂载点                         文件系统
@@ -157,7 +164,7 @@ ESP分区格式化成fat32文件系统
 3.安装基本系统
 
 ```
-pacstrap -i /mnt base base-devel    //安静的等待几分钟.....
+pacstrap -i /mnt base base-devel    //安装基础系统
 ```
 4.生成fstab文件
 
@@ -184,10 +191,6 @@ UUID=1336841b-4b6a-4af4-a8e6-46747a2bb15e       /boot           ext2            
 
 # /dev/sda1
 UUID=E401-83AC          /boot/efi       vfat            rw,noatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remo$
-
-................
-//建议把relatime改成noatime（我的第二个挂载参数)
-
 
 ```
 6.chroot到新安装的系统
@@ -235,7 +238,6 @@ UUID=E401-83AC          /boot/efi       vfat            rw,noatime,fmask=0022,dm
 请按如下说明修改之。
 
 ```
-第7行  把 MODULEA="" 修改为  MODULES="ahci btrfs"  //这项属于一般的优化问题，不改也可以。
 第52行 HOOKS="base udev autodetect modconf block filesystems keyboard fsck" 在末尾加入usr shutdown 
 HOOKS="base udev autodetect modconf block filesystems keyboard fsck usr shutdown"
 第60行 把COMPRESSION="xz"前面的#号去掉，xz的压缩效率更高。
@@ -355,11 +357,10 @@ pacman -S sudo   //为普通用户配置sudo权限
 root ALL=(ALL) ALL    //在第79行
 用户名 ALL=(ALL) ALL  //在第80行添加这行，即可为普通用户添加sudo权限
 ```
-26.安装搜拼音输入法（前提是安装了yaourt或添加了archlinuxcn源)
+26.安装google拼音输入法（前提是安装了yaourt或添加了archlinuxcn源)
 
 ```
-$yaourt -S fcitx-sogoupinyin   或
-#pacman -S fcitx-sogoupinyin
+#pacman -S fcitx-googlepinyin
 ```
 27.安装networkmanager
 
@@ -419,7 +420,7 @@ options bbswitch load_state=0
 blacklist nouveau  
 blacklist nvidiafb  
 ```
-对于有NVIDIA显卡的电脑，若想使用双显卡，可以用bumblebee来设置，由于在archlinux平台上鄙人没有使用过bumblebee来实现双显卡切换，只是简单禁用而已，所以此问题请参阅[Bumblebee ArchWiki](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+对于有NVIDIA显卡的电脑，若想使用双显卡，可以用bumblebee来设置，由于在archlinux平台上我没有使用过bumblebee来实现双显卡切换，只是简单禁用而已，所以此问题请参阅[Bumblebee ArchWiki](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 32.安装一些常用软件
 
 ```
@@ -430,7 +431,7 @@ pacman -S file-roller   //归档管理器
 pacman -S firefox      //安装火狐浏览器
 pacman -S google-chrome  //安装谷歌浏览器
 ```
-更多问题请移步[Arch Wiki](https://wiki.archlinux.org/index.php/Main_page_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))。享受探索给你带来的乐趣吧！欢迎加入Arch社区！
+更多问题请移步[Arch Wiki](https://wiki.archlinux.org/index.php/Main_page_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))。享受探索给你带来的乐趣吧！
 
 
 
