@@ -274,7 +274,7 @@ find . | sudo cpio -H newc -o | gzip -9 > ../uramdisk.cpio.gz
 8.在Create Zynq Boot Image对话框中，点击Add添加上面制作好的u-boot.elf文件，添加后点击OK.![](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/vivado/7.png) 
 
 
-9.BOOT.bin制作完成。
+9.最后点击Create Image, 至此BOOT.bin制作完成。
 
 附：使用命令建立BOOT.bin更加方便，首先要编写一个.bif文件，这里暂且命名boot.bif，并且假设它在/home/huang/xilinx了目录下。
 ```
