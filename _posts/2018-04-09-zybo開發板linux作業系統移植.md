@@ -224,10 +224,10 @@ root::0:0:root:/root:/bin/sh
 #End /etc/passwd
 ```
 
-建立 /init 并软链接到 /sbin/init ，避免 Linux Kernel 开机时找不到 rootfs 的 init。
+建立 /init 并软链接到 /sbin/init ，这非常重要，可以避免 Linux Kernel 开机时找不到 rootfs 的 init。
 
 ```
-ln -s /sbin/init init
+ln -s sbin/init init
 ```
 从交叉编译工具链复制一些文件到相应目录下，工具链名叫CodeSourcery,自己下载，假设此工具链文件夾放在我的用戶根目录下。
 
@@ -292,11 +292,11 @@ bootgen -image boot.bif -w on -o i BOOT.bin
 ```
 
 之后把BOOT.bin,uramdisk.image.gz,devicetree.dtb,uImage复制到sd卡的第一个分区里。
-![要复制进SD卡第一分区的文件](http://img.blog.csdn.net/20180121220225711)
+![要复制进SD卡第一分区的文件](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/zynq/4.png)
 
 ## 5.启动系统
 最后把复制好文件的SD卡插入开发板卡槽，通电后检查是否正常。开发板上电后如果上面的Done指示灯亮，如下图，证明上面制作的文件是可以启动的：
-![开发板上电状态](http://img.blog.csdn.net/20180121215333037)
+![开发板上电状态](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/zynq/1.png)
 
 注意：我的zybo开发板设置使用USB1,也有些使用USB0，可以使用命令
 
@@ -304,7 +304,7 @@ bootgen -image boot.bif -w on -o i BOOT.bin
 ls /dev/ttyUSB   
 ```
 按Tab键查看有多少个USB口，然后选择合适的。比如我的机器是ttyUSB1
-![显示的USB串口](http://img.blog.csdn.net/20180121214529002)
+![显示的USB串口](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/zynq/2.png)
 
 然后在终端输入：
 ```
@@ -314,7 +314,7 @@ sudo minicom -D /dev/ttyUSB1
 ```
 启动成功后大概是这样的：
 
-![开发板成功启动linux的画面](http://img.blog.csdn.net/20180121215638787)
+![开发板成功启动linux的画面](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/zynq/3.png)
 
 ## 6.结语
  文章到此已经讲解完本次的linux系统移值过程，包括开发环境搭建，内核编译，uboot编译，BusyBox制作，相信读者自己动手，参考教程走完一遍流程的话会对所学过的知识有更进一步的了解。我认为学以致用是比较好的学习方式。由于这是我第一次接触zynq系列的开发板，所以也有很多不完善的地方，如果有文章有错误或读者有疑问的地方，欢迎留言.
