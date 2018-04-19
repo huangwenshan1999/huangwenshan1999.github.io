@@ -270,7 +270,7 @@ find . | sudo cpio -H newc -o | gzip -9 > ../uramdisk.cpio.gz
 
 
 ##5.制作BOOT.bin文件
-*注意：这部分我是在windows 10平台下用vivado2015.1做的.
+**注意**：这部分我是在windows 10平台下用vivado2015.1做的.
 1.这里假设PL部分已经做好。**提示**：zybo的板级描述文件可以在[这里](https://github.com/ucb-bar/fpga-zynq/blob/master/zybo/src/xml/ZYBO_zynq_def.xml) 下载，建立工程后导入xml文件。
 2.启动SDK![](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/vivado/1.png) 
 
