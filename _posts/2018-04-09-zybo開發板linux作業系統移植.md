@@ -85,6 +85,7 @@ mkimage -n 'arm-linux' -A arm -O linux -T kernel -C none -a 0x30008000 -e 0x3000
 #mkimage命令在u-boot-xlnx-master/tools/下面执行，如果提示找不到命令可以切换到此目录下面操作。
 ```
 编译设备树文件前先编辑一下zynq-zybo.dts文件：
+
 1）如果不使用nfs根目录系统时，在bootargs改为：
 ```
 chosen {
