@@ -23,81 +23,80 @@ keywords: zybo,linux,xilinx,zynq
  ``` 
  apt install gcc-multilib libmpfr-dev bc
  ```
- 在我的机器上，如果不安装gcc-multilib的话进行CROSS_COMPILE时会提示找不到相关的编译器，比如说找不到arm-xilinx-linux-gnueabi-gcc.没有安装bc时在编译uImage时会报错。
+ 在我的机器上，如果不安装gcc-multilib的话进行CROSS_COMPILE时会提示找不到相关的编译器，比如说找不到arm-linux-gnueabihf-gcc.没有安装bc时在编译uImage时会报错。
  ```
  /bin/sh: 1: bc: not found
  ```
- 同时，如果机器上没有装u-boot-tools的话也要记得先安装。
- 
-
+如果机器上没有装u-boot-tools的话也要记得先安装。
 ```
 apt install u-boot-tools
 ```
-
- 很多教程会说使用source命令去获取xilinx-arm toolchain的路径，但是在我的机器上这是一个坑，因为执行完命令：
- ```
- source /opt/Xilinx/Vivado/2015.1/settings64.sh
- ```
- 进行编译u-boot时报错：arm-xilinx-linux-gnueabi-gcc: Command not found 
- 所以推荐的方法是手动添加路径：
- ```
- nano ～/.profile
- ```
- 在里面添加:
- ```
- export PATH=$PATH:/opt/Xilinx/SDK/2015.1/gnu/arm/lin/bin
- export CROSS_COMPILE=arm-xilinx-linux-gnueabi-
- export ARCH=arm     
- # 建议ARCH变量使用使用时自己指定较好，不用默认为arm。在make时加上ARCH=arm
+推荐手动添加路径,在主目录下：
+```
+nano ～/.profile
+```
+在里面添加:
+```
+export PATH=$PATH:/opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export ARCH=arm 
  ```
 
  然后执行
- ``` huang@debian ~ $ source ~/.profile
- ```
- 当然，在/etc/proflie里修改也行。
- 
+``` 
+source ~/.profile
+```
+
 ## 2.U-boot编译
-首先下载DigilentInc的 U-boot 版本，地址在[这里](https://github.com/DigilentInc/u-boot-Digilent-Dev)，注意要选择master-next分支.当然用git命令更方便
+首先下载DigilentInc的 U-boot 版本，地址在[这里](https://github.com/Xilinx/u-boot-xlnx)，当然用git命令更方便
 ```
-git clone https://github.com/DigilentInc/u-boot-Digilent-Dev.git -b master-next
+git clone https://github.com/Xilinx/u-boot-xlnx.git
 ```
- 然后进入u-boot-Digilent-Dev目录，编译时使用CROSS_COMPILE选择交叉编译器。
+ 然后进入u-boot-xlnx-master目录，编译时使用CROSS_COMPILE选择交叉编译器。
 ```
-CROSS_COMPILE=arm-xilinx-linux-gnueabi- make zynq_zybo_config
-CROSS_COMPILE=arm-xilinx-linux-gnueabi- make -j2
+CROSS_COMPILE=arm-linux-gnueabihf- make zynq_zybo_config
+CROSS_COMPILE=arm-linux-gnueabihf- make -j2
 ```
-编译完成后，在u-boot-DIgilent-Dev根目录下生成一个u-boot文档，这就是开发板需要用到的可执行文件。由于xilinx只能识别.elf后缀名的可执行文件，所以要把u-boot该名为u-boot.elf
+编译完成后，在u-boot-xlnx-master根目录下生成一个u-boot文档，这就是开发板需要用到的可执行文件。由于xilinx只能识别.elf后缀名的可执行文件，所以要把u-boot该名为u-boot.elf
 ```
 cp -v u-boot u-boot.elf
 ```
 
 ## 2.Linux kernel编译
-接下来编译linux kernel.同样在github上下载DigilentInc的linux kernel版本，下载地址在[这里](https://github.com/DigilentInc/Linux-Digilent-Dev)同样要选择master-next分支。或者使用git命令更方便
+接下来编译linux kernel.同样在github上下载DigilentInc的linux kernel版本，下载地址在[这里](https://github.com/Xilinx/linux-xlnx),使用git命令更方便
 
 ```
-git clone https://github.com/DigilentInc/Linux-Digilent-Dev -b master-next
+git clone https://github.com/Xilinx/linux-xlnx.git
 ```
-下载完成后进入Linux-Digilent-Dev目录编译。
+下载完成后进入linux-xlnx-master目录编译。
 
 ```
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make xilinx_zynq_defconfig
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make -j2
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make UIMAGE_LOADADDR=0x8000 uImage
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make zynq-zybo.dtb
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make xilinx_zynq_defconfig
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make -j2
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make UIMAGE_LOADADDR=0x8000 uImage
 ```
-完成后会生成我们需要的uImage和zybo的设备树文件zynq-zybo.dtb
-uImage文件在arch/arm/boot/uImage
+完成后会生成我们需要的uImage,此文件在arch/arm/boot/uImage
 我还试了另一种制作uImage的方法，同样也能工作;所以如果第一种方法不行时可以考虑用第二种方法。
 
 ```
 mkimage -n 'arm-linux' -A arm -O linux -T kernel -C none -a 0x30008000 -e 0x30008040 -d zImage uImage
 
 #地址可以根据实际情况.
-#mkimage命令在u-boot-Digilent-Dev/tools/下面执行，如果提示找不到命令可以切换到此目录下面操作。
+#mkimage命令在u-boot-xlnx-master/tools/下面执行，如果提示找不到命令可以切换到此目录下面操作。
 ```
-
-zynq-zybo.dtb文件在arch/arm/boot/dts/zynq-zybo.dtb
-此外需要将zynq-zybo.dtb重命名为devicetree.dtb
+编译设备树文件前先编辑一下zynq-zybo.dts文件：
+1）如果不使用nfs根目录系统时，在bootargs改为：
+```
+chosen {
+		bootargs = "console=ttyPS0,115200 root=/dev/ram earlyprintk earlycon";
+		stdout-path = "serial0:115200n8";
+	};
+```
+2）改完后执行(注意命令的执行要在linux-xlnx-master目录下操作)：
+```
+CROSS_COMPILE=arm-linux-gnueabihf- make zynq-zybo.dtb
+```
+zynq-zybo.dtb文件在arch/arm/boot/dts/zynq-zybo.dtb;此外需要将zynq-zybo.dtb重命名为devicetree.dtb
 
 ```
 cp -v zynq-zybo.dtb devicetree.dtb
@@ -106,14 +105,12 @@ cp -v zynq-zybo.dtb devicetree.dtb
 Busybox在单一的可执行文件中提供了精简的Unix工具集，可运行于多款POSIX环境的操作系统，例如Linux,包括Android、Hurd、FreeBSD等等。BusyBox可以被自定义化以提供一个超过两百种功能的子集。它可以提供多数详列在单一UNIX规范里的功能，以及许多用户会想在Linux系统上看到的功能。BusyBox使用ash。在 BusyBox的网站上可以找到所有功能的列表。------摘自维基百科
 下载BusyBox的源代码：
 
-```
 git clone git://git.busybox.net/busybox -b 1_28_stable
-```
-在这里选择1_28_stable较新的分支，当然，也可以下载其他分支。
-接下来进行BusyBox的配置，跟配置linux kernel时差不多。这里使用menuconfig配置
+在这里选择1_28_stable较新的分支，当然，也可以下载其他分支。接下来进行BusyBox的配置，跟配置linux kernel时差不多。这里先使用defconfig,使用menuconfig配置
 
 ```
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make menuconfig
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make defconfig
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make menuconfig
 ```
 当然，如果使用menuconfig配置出现错误时可能是你的电脑系统没有装libncurses5-dev库，对于Debian系统可以使用下面的命令来安装。
 
@@ -125,12 +122,12 @@ apt-get install libncurses5-dev
 设定完成后开始进行编译
 
 ```
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make -j2
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make -j2
 ```
 然后使用make install命令把编译出来的BusyBox安装到默认的_install文件夹里。
 
 ```
-ARCH=arm CROSS_COMPILE=arm-xilinx-linux-gnueabi- make install
+ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make install
 ```
 进入_install文件夹里建立一些缺失的文件夹，文件夹的建立遵循FHS标准。
 
@@ -139,31 +136,29 @@ cd _install
 mkdir -p dev proc sys root etc/init.d home mnt opt var lib tmp
 ```
 这看起来和一个完整的linux文件夹很像吧。当然，可以根据具体项目需要建立这些文件夹，这里建立的文件夹只是一个参考。
-接下来创建 etc/init.d/rcS 作为系统的启动脚本
+接下来创建 etc/init.d/rcS 作为系统的启动脚本: nano etc/init.d/rcS
 
 ```
-nano etc/init.d/rcS
-
 #在里面添加以下内容
 
 #Begin /etc/init.d/rcS
 
-	#!/bin/sh
-	PATH=/bin:/sbin:/usr/bin:/usr/sbin
-	runlevel=S
-	mount -a
-	mount -t proc proc /proc
-	mount -t sysfs sysfs /sys
-	mount -t tmpfs -o mode=0755 tmpfs /dev  // dev目录为tmpfs文件系统目录
-	mkdir /dev/pts
-	mount -t devpts devpts /dev/pts
-	echo /sbin/mdev > /proc/sys/kernel/hotplug
-	/sbin/mdev -s
-	mkdir /var/log
-	/bin/hostname yourhostname
-	export PATH runlevel
+#!/bin/sh
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+runlevel=S
+mount -a
+mount -t proc none /proc
+mount -t sysfs none /sys
+mkdir /dev/pts
+mount -t devpts devpts /dev/pts
+#執行此句之前要先在上面掛載/proc /sys,否則會出現錯誤
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+/sbin/mdev -s
+#把localhost切換成你想要的主機名
+/bin/hostname localhost
+export PATH runlevel
 
-	#End /etc/init.d/rcS
+#End /etc/init.d/rcS
 ```
 然后为rcS添加可执行权限
 
@@ -229,11 +224,34 @@ root::0:0:root:/root:/bin/sh
 ```
 ln -s sbin/init init
 ```
-从交叉编译工具链复制一些文件到相应目录下，工具链名叫CodeSourcery,自己下载，假设此工具链文件夾放在我的用戶根目录下。
+如果启动开发板后出现以下信息
+```
+getty: can't open '/dev/ttySAC0': No such file or directory
+getty: can't open '/dev/ttySAC0': No such file or directory
+getty: can't open '/dev/ttySAC0': No such file or directory
+getty: can't open '/dev/ttySAC0': No such file or directory
+getty: can't open '/dev/ttySAC0': No such file or directory
+getty: can't open '/dev/ttySAC0': No such file or directory
+getty: can't open '/dev/ttySAC0': No such file or directory
+```
+要在busybox/_install/dev/下建立一些特殊的文件，这需要用root权限执行
+```
+mknod console c 5 1
+mknod ttyS0 c 204 64
+mknod ttySAC0 c 204 64
+mknod ttyPS0 c 204 64
+```
+然后重启开发板，如果不用nfs网络根文件系统时要重新打包成uramdisk.image.gz再使用。
+
+从交叉编译工具链复制一些文件到相应目录下，不然用户自己移植的一些软件无法运行。
 
 ```
-cp -rf ~/CodeSourcery-master/arm-xilinx-linux-gnueabi/libc/lib ./lib
-cp -rf ~/CodeSourcery-master/arm-xilinx-linux-gnueabi/libc/usr/bin ./usr/bin
+cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib/libc-2.3.2.so _install/lib
+cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib/libc.* _install/lib
+cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib/libm-2.3.2.so _install/lib
+cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib/libm.* _install/lib
+cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib/ld-* _install/lib
+cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib/libthread_db* _install/lib
 ```
 
 把编译出来的rootfs打包成cpio格式
@@ -251,6 +269,7 @@ find . | sudo cpio -H newc -o | gzip -9 > ../uramdisk.cpio.gz
 
 
 ##5.制作BOOT.bin文件
+*注意：这部分我是在windows 10平台下用vivado2015.1做的.
 1.这里假设PL部分已经做好。**提示**：zybo的板级描述文件可以在[这里](https://github.com/ucb-bar/fpga-zynq/blob/master/zybo/src/xml/ZYBO_zynq_def.xml) 下载，建立工程后导入xml文件。
 2.启动SDK![](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/vivado/1.png) 
 
@@ -286,7 +305,7 @@ the_ROM_image:
 }
 ```
 
-然后执行bootgen指令，bootgen指令在/opt/Xilinx/SDK/2015.1/bin/下面。
+然后执行bootgen指令，bootgen指令在/opt/Xilinx/SDK/2015.4/bin/下面。
 ```
 bootgen -image boot.bif -w on -o i BOOT.bin
 ```
