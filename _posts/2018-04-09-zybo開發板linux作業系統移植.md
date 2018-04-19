@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ZYBO開發板：linux作業系統移植
-date: 2018-04-01
+date: 2018-04-09
 author: huang
 header-img: img/green.jpg
 catalog: true
