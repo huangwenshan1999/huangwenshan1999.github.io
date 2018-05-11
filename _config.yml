@@ -25,11 +25,42 @@ facebook_username:
 # Build settings  
 # use Github Flavored Markdown !important  
 # document: http://jekyllrb.com/docs/configuration/#kramdown  
-markdown: rdiscount
+markdown: kramdown
+#markdown: rdiscount
 highlighter: rouge
+kramdown:
+  input: GFM                            # use Github Flavored Markdown !important
 permalink: pretty
 paginate: 8
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+
+gems: [jekyll-paginate]
+
+# 评论系统
+# Disqus（https://disqus.com/）
+# disqus_username: wenshanhuang
+
+# Gitalk
+gitalk:
+  enable: true    #是否开启Gitalk评论
+  repo: huangwenshan1999.github.io    #仓库名称
+  owner: huangwenshan1999    #github用户名
+  admin:  huangwenshan1999
+  distractionFreeMode: true #是否启用类似FB的阴影遮罩
+
+# Google Analytics
+ga_track_id: 'UA-90855596-1'            # Format: UA-xxxxxx-xx
+ga_domain: auto               		     # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
+
+
+# Handling Reading
+safe:                false
+include:             [".htaccess"]
+exclude:             ["Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/"]
+keep_files:          [".git", ".svn"]
+encoding:            "utf-8"
+markdown_ext:        "markdown,mkdown,mkdn,mkd,md"
+strict_front_matter: false
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone: Asia/HongKong
