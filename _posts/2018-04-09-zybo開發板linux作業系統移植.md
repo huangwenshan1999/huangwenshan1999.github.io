@@ -42,7 +42,7 @@ export CROSS_COMPILE=arm-linux-gnueabihf-
 export ARCH=arm 
  ```
 
- 然后执行
+ 然后执行source指令初始化家目錄下的.profile檔案，使上面添加的交叉編譯器的PATH環境變數生效。
 ``` 
 source ~/.profile
 ```
