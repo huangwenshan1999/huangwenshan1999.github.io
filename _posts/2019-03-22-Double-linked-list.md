@@ -9,7 +9,7 @@ tags: linkedlist, linked list
 keywords: linkedlist,linked list
 ---
 
-**民國108年3月17日**
+**民國108年3月22日**
 
 **說明:**文章關於二元樹的算法根據 "Data Structures and Algorithms:Annotated Reference with Examples" 這本書的僞代碼通過C++實現而得，此外本文用於說明的插圖也出自此書。
 
