@@ -14,13 +14,13 @@ keywords: linkedlist,linked list
 **說明:**文章關於二元樹的算法根據 "Data Structures and Algorithms:Annotated Reference with Examples" 這本書的僞代碼通過C++實現而得，此外本文用於說明的插圖也出自此書。
 
 **1.雙向鏈表結構**
-    
+ ````c++    
 typedef struct Node {
     int data;
-    struct Node *prev;   //指向前一個node的指標
-    struct Node *next;  //指向後一個node的指標
+    struct Node *prev;   //指向前一個node的指標    
+    struct Node *next;  //指向後一個node的指標    
 } linkedList;
-    
+ ````    
 節點node是鏈表的基本單元，一個節點包含三個要素：數據，前指標，後指標。圖示如下,圖出自"Data Structures and Algorithms:
 Annotated Reference with Examples"，第十五頁：
 ![ ](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/double-linked-list/double_linked_list_p15.png  "Double linked list")
