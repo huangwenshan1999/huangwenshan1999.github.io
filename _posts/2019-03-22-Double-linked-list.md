@@ -23,7 +23,7 @@ typedef struct Node {
 ```
 節點node是鏈表的基本單元，一個節點包含三個要素：數據，前指標，後指標。圖示如下,圖出自"Data Structures and Algorithms:
 Annotated Reference with Examples"，第十五頁：
-![ ](/home/wilson/src/git/huangwenshan1999.github.io/post_img/double-linked-list/double_linked_list_p15.png  "Double linked list")
+![ ](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/double-linked-list/double_linked_list_p15.png  "Double linked list")
 
 ##二、雙向鏈表的操作
 **1.後插法**
@@ -163,4 +163,4 @@ linkedList *reverseTraverse(linkedList *head) {
 ```
 反向歷遍如下圖所示，圖出自”Data Structures and Algorithms:
 Annotated Reference with Examples”，第十七頁：
-![ ](/home/wilson/src/git/huangwenshan1999.github.io/post_img/double-linked-list/double_linked_list_p17.png  "reverse traverse")
+![ ](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/double-linked-list/double_linked_list_p17.png  "reverse traverse")
