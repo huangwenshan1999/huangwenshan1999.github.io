@@ -258,7 +258,7 @@ cp -v /opt/Xilinx/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnu
 把编译出来的rootfs打包成cpio格式
 
 ```
-find . | sudo cpio -H newc -o | gzip -9 > ../uramdisk.cpio.gz
+find . |  cpio -H newc -o | gzip -9 > ../uramdisk.cpio.gz
 ```
 之后再通过 mkimage 將 uramdisk.cpio.gz 文件转成 uboot 使用的 uramdisk.image.gz
 
