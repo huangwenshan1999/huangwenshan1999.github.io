@@ -265,7 +265,7 @@ find . |  cpio -H newc -o | gzip -9 > ../uramdisk.cpio.gz
 ```
  mkimage -A arm -T ramdisk -C gzip -d ../uramdisk.cpio.gz ../uramdisk.image.gz
 ```
-![这里写图片描述](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/vivado/5.png)
+![这里写图片描述](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/vivado/8.png)
 这个生成的uramdisk.image.gz是我们需要的文件，再制作BOOT.bin文件。
 
 
