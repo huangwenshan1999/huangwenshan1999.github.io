@@ -2,7 +2,7 @@
 layout: post
 title: Double linked list
 date: 2019-03-22
-author: Huang Chihsiao
+author: Huang
 header-img: img/green.jpg
 catalog: true
 tags: linkedlist, linked list
