@@ -2,7 +2,7 @@
 layout: post
 title: Archlinux安裝指南（uefi+gpt）
 date: 2018-04-01
-author: huang
+author: Jason Wong
 header-img: img/green.jpg
 catalog: true
 tags: blog, linux
