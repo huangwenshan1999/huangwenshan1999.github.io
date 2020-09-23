@@ -2,7 +2,7 @@
 layout: post
 title: ZYBO開發板：linux作業系統移植
 date: 2018-04-09
-author: huang
+author: Jason Wong
 header-img: img/green.jpg
 catalog: true
 tags: zybo, linux
