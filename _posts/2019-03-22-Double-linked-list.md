@@ -2,7 +2,7 @@
 layout: post
 title: Double linked list
 date: 2019-03-22
-author: Huang
+author: Jason Wong
 header-img: img/green.jpg
 catalog: true
 tags: linkedlist, linked list
