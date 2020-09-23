@@ -139,7 +139,7 @@ bool remove(linkedList **head, int value) {
 }
 ```
 **5.reverseTraverse**
-作用：從表尾循環到表頭(時間複雜度O(n^2))，比單向鏈表的反向遊歷簡單很多
+作用：從表尾循環到表頭(時間複雜度O(n^2))，比單向鏈表的反向遍歷簡單很多
 ```c++
 linkedList *getLastNode(linkedList *head) {
     while (head != nullptr && head->next != nullptr) {
@@ -161,6 +161,6 @@ linkedList *reverseTraverse(linkedList *head) {
     }
 }
 ```
-反向歷遍如下圖所示，圖出自”Data Structures and Algorithms:
+反向遍歷如下圖所示，圖出自”Data Structures and Algorithms:
 Annotated Reference with Examples”，第十七頁：
 ![ ](https://github.com/huangwenshan1999/huangwenshan1999.github.io/raw/master/post_img/double-linked-list/double_linked_list_p17.png  "reverse traverse")
